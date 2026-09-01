@@ -1,0 +1,21 @@
+{
+  "name": "pipeline-tasks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Small static task-list app used to demonstrate an automated CI/CD pipeline (GitHub Actions -> Jest -> GitHub Pages).",
+  "main": "index.html",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
+  },
+  "license": "MIT"
+}

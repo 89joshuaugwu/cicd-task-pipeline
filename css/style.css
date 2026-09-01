@@ -1,0 +1,318 @@
+/* ---------------------------------------------------------------------------
+   style.css
+   Design concept: the task list lives inside a terminal window, because the
+   whole point of this app is to demonstrate a CI/CD pipeline. Monospace is
+   used for the "console" chrome (titlebar, branch pill, status line) where
+   it's earned by the subject matter; task text itself stays in a legible
+   sans so the list is comfortable to actually read and use.
+
+   Palette (CI status colors, not a generic SaaS/cream palette):
+     --ink        #12161C   page background
+     --surface    #1B212B   terminal panel
+     --surface-2  #222A36   input / row background
+     --border     #2A3240
+     --text       #E8ECF1
+     --text-muted #8B95A5
+     --amber      #E8A33D   accent / focus / running
+     --green      #45B380   success / completed
+     --red        #E2626B   destructive / delete
+--------------------------------------------------------------------------- */
+
+:root {
+  --ink: #12161c;
+  --surface: #1b212b;
+  --surface-2: #222a36;
+  --border: #2a3240;
+  --text: #e8ecf1;
+  --text-muted: #8b95a5;
+  --amber: #e8a33d;
+  --green: #45b380;
+  --red: #e2626b;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(232, 163, 61, 0.08), transparent 40%),
+    var(--ink);
+  color: var(--text);
+  font-family: var(--sans);
+}
+
+.terminal {
+  width: 100%;
+  max-width: 560px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.6);
+}
+
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.terminal-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.terminal-title {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  flex: 1;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.branch-pill {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--green);
+  background: rgba(69, 179, 128, 0.12);
+  border: 1px solid rgba(69, 179, 128, 0.35);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+.terminal-body {
+  padding: 24px;
+}
+
+.prompt-line {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 16px;
+}
+
+.prompt-line .sigil {
+  color: var(--amber);
+}
+
+.task-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.task-form input[type='text'] {
+  flex: 1;
+  min-width: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 11px 12px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.task-form input[type='text']::placeholder {
+  color: var(--text-muted);
+}
+
+.task-form input[type='text']:focus {
+  outline: none;
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px rgba(232, 163, 61, 0.18);
+}
+
+.task-form button {
+  flex: 0 0 auto;
+  background: var(--amber);
+  color: #1a1305;
+  border: none;
+  border-radius: 6px;
+  padding: 0 18px;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.task-form button:hover {
+  filter: brightness(1.08);
+}
+
+.task-form button:active {
+  filter: brightness(0.96);
+}
+
+.form-error {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--red);
+  margin: 4px 0 16px;
+}
+
+.filters {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.filters button {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.filters button.active {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: rgba(232, 163, 61, 0.1);
+}
+
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.task-item .task-checkbox {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 17px;
+  accent-color: var(--green);
+  cursor: pointer;
+}
+
+.task-item .task-text {
+  flex: 1;
+  min-width: 0;
+  font-size: 14.5px;
+  overflow-wrap: anywhere;
+}
+
+.task-item.completed .task-text {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.task-item .task-delete {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.task-item .task-delete:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.empty-state {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 24px 4px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+}
+
+.task-stats {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.task-stats::before {
+  content: '# ';
+  color: var(--green);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .task-item {
+    transition: background-color 0.15s ease;
+  }
+}
+
+@media (max-width: 420px) {
+  .terminal-body {
+    padding: 18px;
+  }
+
+  .task-form {
+    flex-direction: column;
+  }
+
+  .task-form button {
+    padding: 11px;
+  }
+}

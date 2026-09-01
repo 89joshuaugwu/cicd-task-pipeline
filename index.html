@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pipeline-tasks — CI/CD demo</title>
+  <meta name="description" content="A small static task list app used to demonstrate an automated test-and-deploy pipeline with GitHub Actions and GitHub Pages." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="terminal" role="main">
+    <div class="terminal-bar">
+      <div class="terminal-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <p class="terminal-title">pipeline-tasks.app</p>
+      <span class="branch-pill">main</span>
+    </div>
+
+    <div class="terminal-body">
+      <p class="prompt-line"><span class="sigil">$</span> task add "..."</p>
+
+      <form class="task-form" id="task-form" novalidate>
+        <label for="task-input" class="visually-hidden">New task</label>
+        <input
+          type="text"
+          id="task-input"
+          name="task"
+          placeholder="Add a task and press enter"
+          maxlength="200"
+          autocomplete="off"
+        />
+        <button type="submit">Add</button>
+      </form>
+      <p class="form-error" id="form-error" hidden></p>
+
+      <div class="filters" role="group" aria-label="Filter tasks">
+        <button type="button" data-filter="all" class="active">All</button>
+        <button type="button" data-filter="active">Active</button>
+        <button type="button" data-filter="completed">Completed</button>
+      </div>
+
+      <ul class="task-list" id="task-list" aria-live="polite"></ul>
+      <p class="empty-state" id="empty-state" hidden>No tasks here — add one above.</p>
+
+      <p class="task-stats" id="task-stats">0 of 0 done</p>
+    </div>
+  </main>
+
+  <script src="js/logic.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
