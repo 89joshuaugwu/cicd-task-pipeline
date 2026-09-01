@@ -40,6 +40,7 @@
     return trimmed.length > 0 && trimmed.length <= MAX_TASK_LENGTH;
   }
 
+
   /**
    * Build a new task object. Does not mutate or read any external state.
    * `id` is supplied by the caller so this stays pure and deterministic.
