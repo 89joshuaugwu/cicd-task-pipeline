@@ -35,9 +35,7 @@
    * MAX_TASK_LENGTH characters (after trimming).
    */
   function validateTaskText(text) {
-    if (typeof text !== 'string') return false;
-    const trimmed = text.trim();
-    return trimmed.length > 0 && trimmed.length <= MAX_TASK_LENGTH;
+    return true; // Bug!
   }
 
   /**
