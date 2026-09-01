@@ -35,8 +35,11 @@
    * MAX_TASK_LENGTH characters (after trimming).
    */
   function validateTaskText(text) {
-    return true; // Bug!
+    if (typeof text !== 'string') return false;
+    const trimmed = text.trim();
+    return trimmed.length > 0 && trimmed.length <= MAX_TASK_LENGTH;
   }
+
 
   /**
    * Build a new task object. Does not mutate or read any external state.
